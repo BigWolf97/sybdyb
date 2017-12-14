@@ -22,7 +22,7 @@ var routes = require('./routes');
 var tmpMainPath = __dirname + '/';
 var UserSessionId = '';
 var url = 'mongodb://127.0.0.1:27017/meteor';
-//var url = 'mongodb://0bbd45ee8f84dec3352c606e53ac8fa2:Gengis69@4a.mongo.evennode.com:27017/0bbd45ee8f84dec3352c606e53ac8fa2';
+
 var MongoOptions = {
     useMongoClient: true,
     /* other options */
