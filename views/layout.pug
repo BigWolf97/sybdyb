@@ -1,0 +1,33 @@
+doctype html
+html(lang='fr', ng-app='SybDybAppVw')
+	head
+		title= 'OceaneWebApp'
+		link(rel='stylesheet', href='/css/bootstrap.min.css')
+		script(type="text/javascript", src='/js/angular.min.js')
+		script(type="text/javascript", src='/js/ngStorage.min.js')
+		//script(type="text/javascript", src='/js/appScript.js')
+		script(type="text/javascript", src='/js/socket.io.js')
+		//script(type="text/javascript", src='/js/delivery.js')
+		//script(type="text/javascript", src='/js/angular-sanitize.js')
+		meta(name="viewport", content="width=device-width, initial-scale=1.0")
+		//link(rel='stylesheet', href='/css/w3.css')
+		link(rel='stylesheet', href='/css/bulma.css')
+		//link(rel='stylesheet', href='/css/pageWeb.css')
+		link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css')
+		//script(src='https://maps.googleapis.com/maps/api/js?key=AIzaSyDZh5KcOE0AA4hx0sLO-CAQ7NRucnlYqoU&callback=myMap')
+	body(ng-controller='firstCtrl')
+		block page
+		block header
+			include includes/menu
+		br
+		br
+		.w3-main.w3-padding
+			block alert
+				div.alert.alert-warning.hidden
+			block content
+			br
+		block footer
+			footer
+				.w3-container.w3-center
+					p Copyright &copy; 2017 | OceaneWebApp.gp
+		

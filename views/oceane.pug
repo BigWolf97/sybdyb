@@ -1,0 +1,59 @@
+﻿extends layoutAlt
+
+block page
+	script(type="text/javascript", src='/js/angular-sanitize.js')
+	script(type="text/javascript", src='/js/appOceaneScript.js')
+block content
+	.w3-container.w3-card-4
+		.w3-center
+			img.w3-circle(src='/img/logoOceane.jpg', alt='Logo', style='width:100px')
+		h2.w3-center Oceane Software
+		br
+		.w3-bar.w3-light-grey.w3-card-4
+			button.w3-bar-item.w3-button(ng-click="SelectMenu('MenuA')") 
+				b Oceane Software 
+			button.w3-bar-item.w3-button(ng-click="SelectMenu('MenuB')") 
+				b Produits
+			button.w3-bar-item.w3-button(ng-click="SelectMenu('MenuC')") 
+				b Services
+			button.w3-bar-item.w3-button(ng-click="SelectMenu('MenuD')") 
+				b Support
+		br
+		#MenuA(style='display:block')
+			.w3-panel.w3-leftbar.w3-sand(ng-hide="MenuAContent.intro == ''")
+				p(ng-bind-html='MenuAContent.intro')
+			br
+			p(ng-bind-html='MenuAContent.corps')
+		#MenuB(style='display:none')
+			.w3-panel.w3-leftbar.w3-sand(ng-hide="MenuBContent.intro == ''")
+				p(ng-bind-html='MenuBContent.intro')
+			p(ng-bind-html='MenuBContent.corps')
+			ul
+				li(ng-repeat='produits in MenuBContent.produits')
+					a(href="#",ng-click="openProduit($index)") 
+						b {{produits.titre}}
+		#MenuC(style='display:none')
+			.w3-panel.w3-leftbar.w3-sand(ng-hide="MenuCContent.intro == ''")
+				p(ng-bind-html='MenuCContent.intro')
+			.w3-card-4.w3-container(ng-repeat='vCorps in MenuCContent.corps')
+				h4 
+					b
+						u {{vCorps.titre}}
+				p(ng-bind-html='vCorps.detail')
+		#MenuD(style='display:none')
+			.w3-panel.w3-leftbar.w3-sand(ng-hide="MenuDContent.intro == ''")
+				p(ng-bind-html='MenuDContent.intro')
+			br
+			p(ng-bind-html='MenuDContent.corps')
+		br
+	#popProduit.w3-modal
+		.w3-modal-content.w3-card-4.w3-light-grey.w3-animate-zoom
+			span.w3-closebtn.w3-hover-red.w3-container.w3-padding-8.w3-display-topright(ng-click="closeProduit()", title='Fermer') 
+				b &times; 
+			br
+			.w3-container
+				h3
+					b {{MenuBContent.produits[idProduit].titre}}
+				br
+				p(ng-bind-html='MenuBContent.produits[idProduit].detail') 
+				br

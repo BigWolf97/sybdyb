@@ -1,0 +1,68 @@
+﻿.menu
+	.w3-top
+		.w3-bar.w3-light-grey.w3-card-4
+			#myOverlay.w3-overlay(onclick="w3_close()", style="cursor:pointer")
+			button.w3-bar-item.w3-button(onclick="w3_open()") ☰
+			.w3-bar-item.w3-button.w3-orange
+				b.w3-text-shadow.w3-text-white OceaneWebApp   
+				//i.fa.fa-home
+			a.w3-bar-item.w3-button(href="/oceane") 
+				b Oceane    
+				i.fa.fa-handshake-o
+			if (usrSession)
+				a.w3-bar-item.w3-button( href="/logout") Deconnecter 
+						i.fa.fa-times-circle
+			#mySidebar.w3-sidebar.w3-bar-block.w3-white.w3-animate-left.w3-card-4(style="display:none;z-index:4")
+				button.w3-bar-item.w3-button.w3-right-align(onclick="w3_close()") &times;
+				if (usrSession)
+					if (usrSession ==='admin' || usrSession==='market')
+						.w3-bar-item.w3-button
+							i.fa.fa-shopping-basket
+							a(href="/market") 
+								b Market   
+								
+					if (usrSession ==='admin' || usrSession==='iadb')
+						.w3-bar-item.w3-button
+							i.fa.fa-comments-o
+							a(href="/iadb") 
+								b iaChat   
+								
+					if (usrSession ==='admin' || usrSession==='archives')
+						.w3-bar-item.w3-button.w3-dropdown-hover
+							i.fa.fa-archive
+							b 	Archives 	
+							.w3-dropdown-content.w3-bar-block.w3-card-4
+								a.w3-bar-item.w3-button(href="/archives") Rechercher 
+								a.w3-bar-item.w3-button(href="/archives/add") Ajouter
+								a.w3-bar-item.w3-button(href="/archives/conf") Gerer les Indexes 
+					if (usrSession ==='admin' || usrSession==='contact')
+						.w3-bar-item.w3-button.w3-dropdown-hover
+							i.fa.fa-users
+							b 	Contact 	
+							.w3-dropdown-content.w3-bar-block.w3-card-4
+								a.w3-bar-item.w3-button(href="/contact") Gerer 
+									b Contact 
+								a.w3-bar-item.w3-button(href="/contact/new") Nouveau 
+									b Contact 
+					if (usrSession ==='admin' || usrSession==='temps')
+						.w3-bar-item.w3-button.w3-dropdown-hover
+							i.fa.fa-calendar
+							b 	Temps 
+							.w3-dropdown-content.w3-bar-block.w3-card-4
+								a.w3-bar-item.w3-button(href="/temps") Gerer 
+									b Les Temps 
+					if (usrSession ==='admin')
+						.w3-bar-item.w3-button.w3-dropdown-hover
+							i.fa.fa-gears
+							b 	Config 	
+							.w3-dropdown-content.w3-bar-block.w3-card-4
+								a.w3-bar-item.w3-button(href="/config") Parametres 
+			script.
+				function w3_open() {
+					document.getElementById("mySidebar").style.display = "block";
+					document.getElementById("myOverlay").style.display = "block";
+				}
+				function w3_close() {
+					document.getElementById("mySidebar").style.display = "none";
+					document.getElementById("myOverlay").style.display = "none";
+				}

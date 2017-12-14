@@ -1,0 +1,53 @@
+﻿
+.navbar.is-fixed-top.is-black
+	.navbar-brand
+		a.navbar-item(href="/",style="text-decoration:none;")
+			h1 OceaneWebApp
+	.navbar-menu
+		.navbar-end
+			a.navbar-item(href="/oceane") 
+				h2 Oceane
+			if (usrSession)
+				if (usrSession ==='admin' || usrSession==='market')
+					a.navbar-item(href="/market") 
+						h2 Market  
+							
+				if (usrSession ==='admin' || usrSession==='iadb')
+					a.navbar-item(href="/iadb",style="text-decoration:none;") 
+						h2 iaChat
+							
+				if (usrSession ==='admin' || usrSession==='archives')
+					.navbar-item.has-dropdown.is-hoverable
+						a.navbar-link 
+							h2 Archives
+						.navbar-dropdown.is-boxed
+							a.navbar-item(href="/archives") Rechercher 
+							hr.navbar-divider
+							a.navbar-item(href="/archives/add") Ajouter
+							a.navbar-item(href="/archives/conf") Gerer les Indexes 
+
+				if (usrSession ==='admin' || usrSession==='contact')
+					.navbar-item.has-dropdown.is-hoverable
+						a.navbar-link 
+							h2 Contact
+						.navbar-dropdown.is-boxed
+							a.navbar-item(href="/contact") Gerer 
+							hr.navbar-divider
+							a.navbar-item(href="/contact/new") Ajouter
+
+				if (usrSession ==='admin' || usrSession==='temps')
+					.navbar-item.has-dropdown.is-hoverable
+						a.navbar-link 
+							h2 Temps
+						.navbar-dropdown.is-boxed
+							a.navbar-item(href="/temps") Gerer les Temps
+
+				if (usrSession ==='admin')
+					.navbar-item.has-dropdown.is-hoverable
+						a.navbar-link 
+							h2 Config
+						.navbar-dropdown.is-boxed
+							a.navbar-item(href="/config") Parametres
+
+				a.navbar-item( href="/logout") 
+					h2 Deconnecter 

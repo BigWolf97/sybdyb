@@ -1,0 +1,81 @@
+extends layout
+
+block page
+	script(type="text/javascript", src='/js/delivery.js')
+	script(type="text/javascript", src='/js/appArchiveScript.js')
+block content
+	.w3-display-container(style='min-height:400px')
+		.w3-display-middle(style='width:100%;')
+			.w3-card-4
+				h2.w3-center Criteres de recherche
+				br
+				//--
+				.w3-container
+					.w3-card-4
+						.w3-row-padding
+								.w3-half
+									select#IndexNameList.w3-input(ng-model='IndexNameList',ng-change="IndexVal = ''")
+										option(value='', selected='', disabled='')  Indexes
+										option(ng-repeat='IndexList in IndexLists', value='{{ IndexList }}') {{ IndexList }}
+								.w3-half
+									input#IndexVal.w3-input(list='IdxValList', type='text',placeholder='Valeur', ng-model='IndexVal', ng-change="majIdxValList('assist')")
+									datalist#IdxValList
+										option(ng-repeat='IndexValList in IndexValLists', value='{{ IndexValList }}')
+						button.w3-btn.w3-block.w3-orange(ng-click="addIdxRow()") 
+							b Ajouter Critere
+					.w3-responsive
+						.w3-card-4(style="overflow:auto; min-height: 50px;max-height: 200px;")
+							table#tabidx.w3-table-all
+								tr.w3-orange
+									th
+										b 
+									th
+										b Indexe
+									th
+										b Valeur
+								tr(ng-repeat='searchCritere in searchCriteres')
+									td
+										button.w3-btn.w3-orange(ng-click="dltIdxRow('$index')")  
+											b X
+									td 
+										input#IndexNameList.w3-input(name='idxN{{$index}}', type='text', value= '{{ searchCritere["IndexName"] }}', disabled='')
+									td 
+										input#IndexVal.w3-input(name='idxV{{$index}}', type='text', value= '{{ searchCritere["IndexVal"] }}', disabled='')
+						button.w3-btn.w3-block.w3-orange(ng-click="ioDialog('recherche')") 
+							b Rechercher		
+				br
+	#popResultat.w3-modal
+		.w3-modal-content.w3-animate-zoom(style='width:100%;')
+			span.w3-closebtn.w3-hover-red.w3-container.w3-padding-8.w3-display-topright(ng-click="closeResultat()", title='Fermer') &times; 
+			br
+			br
+			h2.w3-center Resultats de la recherche
+			br
+			//--
+			.w3-responsive
+				.w3-card-4(style="overflow:auto; min-height: 50px;max-height: 600px")
+					table.w3-table-all
+						tr.w3-orange
+							th
+								b Document Type
+							th
+								b Document PC
+							th
+								b Date
+							th
+								b Action
+						tr(ng-repeat='searchResult in searchResults')
+							td {{ searchResult[&apos;DOCUMENT TYPE&apos;] }}
+							td {{ searchResult.ARCDOC }}
+							td {{ searchResult.ARCDATC }}
+							td.w3-row-padding
+								a.w3-half(ng-hide='searchResult.file == null ', rel='parent', target='_blank', href='/archives/{{ searchResult.file }}') Ouvrir
+								a.w3-half(ng-hide='searchResult.file == null ', rel='parent', target='_blank', href='/archives/add/{{ searchResult.file }}') Index
+					.w3-center
+						.w3-bar.w3-border.w3-round
+							b.w3-bar-item.w3-button( ng-click="PageRecherche('-')") &#x276E; Precedent
+							input.w3-bar-item.w3-button.w3-block(readonly='', size='3', type='text', ng-model='ListSearchRPage')
+							b.w3-bar-item.w3-button.w3-right( ng-click="PageRecherche('+')") Suivant &#x276F;
+				
+				
+				

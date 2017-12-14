@@ -1,0 +1,38 @@
+extends layout
+
+block page
+	- var menu = 'user'
+	script(type="text/javascript", src='/js/delivery.js')
+	script(type="text/javascript", src='/js/appArchiveScript.js')
+block content
+	.w3-container.w3-card-4.w3-margin
+		h2.w3-center Gerer les Indexes Archives
+		br
+		br
+		//--
+		label Indexe :
+		input#index_nom.w3-input(list='list_index', type='text', placeholder='indexe', ng-model='index_nom')
+		datalist#list_index
+			option(ng-repeat='indexNom in indexNoms', value='{{ indexNom }}')
+		br
+		//--
+		label Groupe :
+		input#index_group.w3-input(list='indexList_group', type='text', placeholder='Groupe', ng-model='index_group')
+		datalist#indexList_group
+			option(ng-repeat='indexGroup in indexGroups', value='{{ indexGroup }}')
+		br
+		//--
+		label Mise a jour de la liste IDX =>    
+		button.w3-btn.w3-orange(ng-click='UptListIdx()') Lancer
+		br
+		//--
+		label ID 
+		input#index_id.w3-input(type='text', ng-model='index_id', disabled='')
+		//--
+		button.w3-btn.w3-left.w3-orange(ng-click="ioDialog('IndexTable')") Cr&eacute;er
+		button.w3-btn.w3-orange(ng-click="resetForm('IndexTable')") Reset
+		button.w3-btn.w3-right.w3-orange(ng-click="deleteFrom('IndexTable',index_id)") Delete
+		//--
+		select#indexSeek.w3-select(ng-model='indexSeek', ng-change="getForm('IndexTable',indexSeek)")
+			option(value='', selected='', disabled='')  Liste d'indexes
+			option(ng-repeat='IndexTable in IndexTables', value='{{ IndexTable._id }}')  ( {{ IndexTable.group }} ) - {{ IndexTable.index }}

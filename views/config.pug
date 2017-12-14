@@ -1,0 +1,80 @@
+extends layout
+
+block page
+	script(type="text/javascript", src='/js/appConfigScript.js')
+block content
+	.w3-row
+		.w3-quarter
+			h2   	
+		.w3-half
+			.w3-center
+				.w3-container.w3-card-4(style="max-width: 500px;")
+					h2.w3-center Utilisateur
+					br
+					select#UserTemps.w3-input(ng-model='UserTemps')
+								option(value='', selected='', disabled='')  Utilisateur
+								option(ng-repeat='User in ListUtilisateur', value='{{ User._id }}') {{ User.nom }}
+					button.w3-btn.w3-orange.w3-right.w3-padding(ng-click="openUtilisateur()")  +Utilisateur
+					button.w3-btn.w3-orange.w3-right.w3-padding(ng-click="chgUtilisateur(UserTemps)")  Modifier
+					br
+					br
+				.w3-container.w3-card-4(style="max-width: 500px;")
+					h2.w3-center Parametres
+					br
+					//--
+					input#par_nom.w3-input(list='list_nom', type='text', placeholder='Nom', ng-model='par_nom')
+					datalist#list_nom
+						option(ng-repeat='parNom in parNoms', value='{{ parNom }}')
+					br
+					//--
+					input#par_nom.w3-input(list='list_group', type='text', placeholder='Groupe', ng-model='par_group')
+					datalist#list_group
+						option(ng-repeat='parGroup in parGroups', value='{{ parGroup }}')
+					br
+					//--
+					textarea#par_valeur.w3-input(rows='3', cols='40', ng-model='par_valeur')
+					br
+					//--
+					input#par_id.w3-input(type='text', ng-model='par_id', disabled='')
+					//--
+					button.w3-btn.w3-left.w3-orange(ng-click="ioDialog('parametre')") Cr&eacute;er
+					button.w3-btn.w3-orange(ng-click="resetForm('parametre')") Reset
+					button.w3-btn.w3-right.w3-orange(ng-click="deleteFrom('parametre',par_id)") Delete
+					//--
+					select#parametreSeek.w3-select(ng-model='parametreSeek', ng-change="getForm('parametre',parametreSeek)")
+						option(value='', selected='', disabled='')  Liste de Parametres
+						option(ng-repeat='parametre in Parametres', value='{{ parametre._id }}')  ( {{ parametre.group }} ) - {{ parametre.nom }}
+		.w3-quarter
+			h2 
+	#popUtilisateur.w3-modal
+			.w3-modal-content.w3-card-8.w3-animate-zoom(style='max-width:500px')
+				span.w3-closebtn.w3-hover-red.w3-container.w3-padding-8.w3-display-topright(ng-click="closeUtilisateur()", title='Fermer') &times; 
+				br
+				br
+				form.w3-container(ng-submit='AjouterUtilisateur(Utilisateur)')
+					h2.w3-center 
+						b Utilisateur
+					.w3-row
+						.w3-half
+							input.w3-input.w3-border(type='text', placeholder='Nom ?' , ng-model='Utilisateur.nom') 
+							br
+							input.w3-input.w3-border(type='text', placeholder='nomCivil ?' , ng-model='Utilisateur.nomCivil') 
+							br
+							input.w3-input.w3-border(type='text', placeholder='Mail ?' , ng-model='Utilisateur.Mail') 
+							br
+							input.w3-input.w3-border(type='password', placeholder='Password ?' , ng-model='Utilisateur.Password') 
+							br
+						.w3-half
+							input.w3-input.w3-border(type='text', placeholder='nomAlias ?' , ng-model='Utilisateur.nomAlias') 
+							br
+							input.w3-input.w3-border(type='text', placeholder='PrenomCivil ?' , ng-model='Utilisateur.PrenomCivil')
+							br
+							input.w3-input.w3-border(type='text', placeholder='Tel ?' , ng-model='Utilisateur.Tel')  
+							br
+							input.w3-input.w3-border(type='text', placeholder='Droits ?' , ng-model='Utilisateur.Droits') 
+							br
+					br
+					textarea.w3-input.w3-border( placeholder='Commentaire ?', ng-model='Utilisateur.Commentaire', rows='3' ) 
+
+					button.w3-btn.w3-block.w3-orange.w3-section.w3-padding(type='submit') Enregistrer  
+					input.w3-input(type='text', disabled='', ng-model='Utilisateur._id') 

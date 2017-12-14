@@ -1,0 +1,19 @@
+﻿extends layout
+
+block page
+    - var menu = 'user'
+    script(type="text/javascript", src='/js/delivery.js')
+    script(type="text/javascript", src='/js/appArchiveScript.js')
+block content
+
+    .w3-container.w3-card-4
+        h2.w3-center Achiver un Document
+        br
+        //--
+        .w3-container.w3-card-4
+                input.w3-btn.w3-block.w3-orange(type='file', name='archivesFile', ng-model='archivesFile', onchange="angular.element(this).scope().setFiles(this)")
+                br
+                button.w3-btn.w3-block.w3-orange(ng-click='ArcDocSave()') 
+                    b Archiver le Document
+        br
+

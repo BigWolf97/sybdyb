@@ -1,0 +1,24 @@
+﻿extends layoutAlt
+
+block page
+	- var menu = 'user'
+	script(type="text/javascript", src='/js/appIaChatScript.js')
+block content
+	.w3-container
+		h2.w3-center IA - Chat (#{ user })
+		form(ng-submit='SendUserAsk(UserAsk)',ng-model='UserAskForm',autocomplete="off")
+			.w3-card-4
+				.w3-row
+					.w3-col(style='width:80px')
+						button.w3-btn.w3-padding-large.w3-orange(type='submit') 
+							b Dire 
+					.w3-rest
+						input#UserAsk.w3-input.w3-border-0(ng-model='UserAsk')
+			br
+			.w3-card-4(style="overflow:auto; height: 350px; border: 1px solid #AAAAAA")
+				ul.w3-ul
+					li(ng-repeat='iaTchatL in iaTchat')
+						b {{ iaTchatL.time }} | {{ iaTchatL.user }} : 
+						l {{ iaTchatL.texte }}
+			br
+			//--

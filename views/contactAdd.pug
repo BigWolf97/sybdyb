@@ -1,0 +1,81 @@
+﻿extends layout
+
+block page
+	- var menu = 'user'
+	script(type="text/javascript", src='/js/appContactScript.js')
+block content
+	.w3-container.w3-card-4
+		br
+		.w3-container.w3-card-4
+			h2.w3-center 
+				b Nous Contacter
+			br
+			form(ng-submit='AjouterContact(contact)',ng-model='ContactForm')
+					.w3-row.w3-section.w3-container.w3-card-4
+						.w3-col(style='width:45px')
+							i.w3-xxlarge.fa.fa-home
+						.w3-rest
+							select.w3-input(ng-model='contact.IDAgence')
+								option(value='', selected='', disabled='')  Agence
+								option(ng-repeat='Agence in ListAgence', value='{{ Agence._id }}') {{ Agence.Nom }}
+					h3.w3-center 
+						b Vos Coordonées
+					.w3-container.w3-card-4
+						.w3-row.w3-section
+							.w3-col(style='width:45px')
+								i.w3-xxlarge.fa.fa-user-circle
+							.w3-rest
+								.w3-col(style='width:50%')
+									input.w3-input.w3-border(type='text',ng-model='contact.Nom', placeholder='Nom ?', style='width:98%')
+								.w3-col(style='width:50%')
+									input.w3-input.w3-border.w3-right(type='text',ng-model='contact.Prenom', placeholder='Prénom ?', style='width:98%')
+						.w3-row.w3-section
+							.w3-col(style='width:45px')
+								i.w3-xxlarge.fa.fa-birthday-cake
+							.w3-col(style='width:165px')
+								input.w3-input.w3-border(type='date', size='12', ng-model='contact.DateDeNaissance', placeholder='Date de naissance ?')
+						.w3-row.w3-section
+							.w3-col(style='width:45px')
+								i.w3-xxlarge.fa.fa-envelope-o
+							.w3-rest
+								input.w3-input.w3-border(type='email', ng-model='contact.Mail', placeholder='Mail ?')
+						.w3-row.w3-section
+							.w3-col(style='width:45px')
+								i.w3-xxlarge.fa.fa-mobile
+							.w3-rest
+								.w3-col(style='width:50%')
+									input.w3-input.w3-border(type='text',ng-model='contact.Telephone', placeholder='Telephone ?', style='width:98%')
+								.w3-col(style='width:50%')
+									input.w3-input.w3-border.w3-right(type='text',ng-model='contact.Portable', placeholder='Mobile ?', style='width:98%')
+						.w3-row.w3-section
+							.w3-col(style='width:45px')
+								i.w3-xxlarge.fa.fa-map-marker
+							.w3-col(style='width:150px')
+								input.w3-input.w3-border(type='text',ng-model='contact.CodePostale', placeholder='CP ?')
+							.w3-rest
+								input.w3-input.w3-border.w3-right(type='text',ng-model='contact.Ville', placeholder='Ville ?', style='width:98%')
+						.w3-row.w3-section
+							.w3-col(style='width:45px')
+								i.w3-xxlarge.fa.fa-location-arrow
+							.w3-col(style='width:47%')
+								textarea.w3-input.w3-border( placeholder='Adresse ?', ng-model='contact.Adresse', rows='3' )
+					h3.w3-center 
+						b Votre Projet
+					.w3-container.w3-card-4
+						h3.w3-center 
+							b {{ infoEtape.Titre }} 
+						.w3-center
+							.w3-row.w3-section(ng-repeat='iEtape in infoEtape.Champs')
+								button.w3-btn.w3-blue(type='button',style='width:50%', ng-click="addProjetContact($index)") {{ iEtape }} 
+
+						br
+						ul.w3-pagination.w3-border.w3-round
+							li
+								a(href='javascript:void(0)', ng-click="PageEtape('-')") &#x276E; Precedent
+							li
+								a(href='javascript:void(0)', ng-click="PageEtape('+')") Suivant &#x276F;
+						input.w3-right(readonly='', size='3', type='text', ng-model='ListSearchRPage')   
+					br
+					button.w3-btn-block.w3-blue.w3-section.w3-padding(type='submit') Envoyer 
+		br
+	br

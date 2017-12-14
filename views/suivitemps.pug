@@ -1,0 +1,73 @@
+﻿extends layout
+
+block page
+	- var menu = 'user'
+
+block content
+
+	.w3-container.w3-card-4
+		h2.w3-center Taches Suivies
+		br
+
+		select#UserTemps.w3-input(ng-model='UserTemps',ng-change="chgUserTemps(UserTemps)")
+			option(value='', selected='', disabled='')  Utilisateur
+			option(ng-repeat='User in Users', value='{{ User._id }}') {{ User.nom }}
+		button.w3-btn-block.w3-orange(onclick="angular.element(this).scope().openTemps()") 
+			b Ajouter un temps
+		//--
+		ul.w3-ul.w3-card-4
+			li.w3-padding-16(ng-repeat='Tache in SuiviTacheList')
+				span.w3-closebtn.w3-padding(ng-click="endTemps($index)") &times;
+				span.w3-closebtn.w3-padding
+					i.fa.fa-pencil-square-o(ng-click="openTemps($index)")
+				span.w3-xlarge {{ Tache["Nom"] }}
+				br
+				p 
+					b Etat : 
+					span {{ Tache["Etat"] }}
+					br
+					b Client : 
+					span {{ Tache["Client"] }}
+					br
+					b Projet :
+					span {{ Tache["Projet"] }}
+					br
+					b Detail :
+					span {{ Tache["Detail"] }}
+		br
+		ul.w3-pagination.w3-border.w3-round
+			li
+				a(href='javascript:void(0)', ng-click="PageTemps('-',UserTemps)") &#x276E; Precedent
+			li
+				a(href='javascript:void(0)', ng-click="PageTemps('+',UserTemps)") Suivant &#x276F;
+		input.w3-right(readonly='', size='3', type='text', ng-model='ListSearchRPage')
+		br
+		#popTemps.w3-modal
+			.w3-modal-content.w3-card-8.w3-animate-zoom(style='max-width:400px')
+				span.w3-closebtn.w3-hover-red.w3-container.w3-padding-8.w3-display-topright(onclick="angular.element(this).scope().closeTemps()", title='Fermer') &times; 
+				br
+				br
+				form.w3-container(ng-submit='AjouterTemps(temps.id,temps.tache,temps.client,temps.projet,temps.user,temps.date,temps.duree,temps.detail)')
+					h2.w3-center 
+						b Temps
+					select#tache.w3-input(ng-model='temps.tache')
+						option(value='', selected='', disabled='')  Tache
+						option(ng-repeat='Tache in ListTache', value='{{ Tache._id }}') {{ Tache.Nom }}
+					select#client.w3-input(ng-model='temps.client')
+						option(value='', selected='', disabled='')  Client
+						option(ng-repeat='Client in ListClient', value='{{ Client._id }}') {{ Client.Nom }}
+					select#projet.w3-input(ng-model='temps.projet')
+						option(value='', selected='', disabled='')  Projet
+						option(ng-repeat='Projet in ListProjet', value='{{ Projet._id }}') {{ Projet.Nom }}
+					select#UserTask.w3-input(ng-model='temps.user')
+						option(value='', selected='', disabled='')  Utilisateur
+						option(ng-repeat='User in Users', value='{{ User._id }}') {{ User.nom }}
+					br
+					input#date.w3-input.w3-border(type='text', placeholder='Date ?' , ng-model='temps.date') 
+					br
+					input#duree.w3-input.w3-border(type='text', placeholder='Durée ?' , ng-model='temps.duree') 
+					br
+					textarea#detail.w3-input.w3-border( placeholder='détail ?', ng-model='temps.detail', rows='5' ) 
+
+					button.w3-btn-block.w3-orange.w3-section.w3-padding(type='submit') Enregistrer  
+					input#todoid.w3-input(type='text', disabled='', ng-model='temps.id')

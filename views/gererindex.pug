@@ -1,0 +1,59 @@
+﻿extends layout
+
+block page
+	- var menu = 'user'
+	script(type="text/javascript", src='/js/delivery.js')
+	script(type="text/javascript", src='/js/appArchiveScript.js')
+block content
+	.w3-container.w3-card-4
+		h2.w3-center Gerer les indexes du Document
+		br
+		.w3-container.w3-card-4
+			.w3-row-padding
+				.w3-half
+					input#ArcDocID.w3-input(type='text', disabled='',value=arcDoc._id)
+				.w3-half
+					input#ArcDocFName.w3-input(type='text', disabled='',value=arcDoc.filename)
+			.w3-row-padding
+				.w3-half
+					h5 Taille : #{(arcDoc.length)/1000} ko
+				.w3-half
+					h5 Date : #{arcDoc.uploadDate.toLocaleDateString()}
+			button.w3-btn-block.w3-orange(ng-click="GererIdx()") 
+				b Gerer les Indexes
+						
+		br
+		.w3-container.w3-card-4(ng-show='MngIdx')
+			.w3-row-padding
+					.w3-half
+						input#IndexNameList.w3-input(list='IdxValListG', type='text', placeholder='Indexe', ng-model='IndexNameList')
+						datalist#IdxValListG
+							option(ng-repeat='IndexList in IndexLists', value='{{ IndexList }}')
+					.w3-half
+						input#IndexVal.w3-input(list='IdxValList', type='text',placeholder='Valeur', ng-model='IndexVal', ng-change="majIdxValList('assist')")
+						datalist#IdxValList
+							option(ng-repeat='IndexValList in IndexValLists', value='{{ IndexValList }}')
+			button.w3-btn-block.w3-orange(ng-click="addIdxRow()") 
+				b Ajouter Critere
+			.w3-responsive
+			br
+			table#tabidx.w3-table-all.w3-card-4
+				tr.w3-orange
+					th
+						b 
+					th
+						b Indexe
+					th
+						b Valeur
+				tr(ng-repeat='searchCritere in searchCriteres')
+					td
+						button.w3-btn.w3-orange(ng-click="dltIdxRow($index)") 
+							b X
+					td 
+						input#IndexNameList.w3-input(name='idxN{{$index}}', type='text', value= '{{ searchCritere["IndexName"] }}', disabled='')
+					td 
+						input#IndexVal.w3-input(name='idxV{{$index}}', type='text', value= '{{ searchCritere["IndexVal"] }}', disabled='')
+		br
+		.w3-container.w3-card-4(ng-show='MngIdx')
+			button.w3-btn-block.w3-orange(ng-click='ArcIdxSave()')
+				b Mettre a jour les indexes

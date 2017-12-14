@@ -1,0 +1,24 @@
+extends layoutAlt
+
+block page 
+	- var menu = 'index'
+	script(type="text/javascript", src='/js/appIndexScript.js')
+block content
+	br
+	.w3-display-container(style='min-height:400px')
+		.w3-display-middle
+			.w3-card-4.w3-dark-grey.w3-animate-top
+				.container.w3-center
+					h2 Connexion
+					img.w3-circle(src='/img/img_avatar4.png', alt='Avatar', style='width:30%')
+					br
+					br
+					form.container(ng-submit='connexion(UserConn,PasswConn)')
+						input#UserConn.input.w3-border.margin-bottom(ng-model='UserConn',type='text', placeholder='Utilisateur') 
+						input#PasswConn.input.w3-border(ng-model='PasswConn',type='password', placeholder='Mot de passe') 
+						button.button.w3-block.w3-orange.w3-section.w3-padding(type='submit') 
+							b Connecter 
+						input#UserSessId.input(ng-hide='true',type='password', disabled='',value=SessId)
+						input#originalUrl.input(ng-hide='true',type='password', disabled='',value=originalUrl)
+		
+	br

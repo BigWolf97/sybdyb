@@ -1,0 +1,217 @@
+﻿extends layout
+
+block page
+	- var menu = 'user'
+	script(type="text/javascript", src='/js/appTempsScript.js')
+block content
+
+	.w3-container.w3-card-4
+		h2.w3-center Gestion des temps
+		br
+		.w3-container
+			.w3-card-4
+				select#idClient.w3-input(ng-model='idClient',ng-change="chgClient(idClient)")
+					option(value='', selected='', disabled='')  Client
+					option(ng-repeat='Client in ListClient', value='{{ $index }}') {{ Client.Nom }}
+				b.w3-btn.w3-orange.w3-right.w3-padding(ng-click="openClient()") Creer   
+				b.w3-btn.w3-orange.w3-left.w3-padding(ng-click="openClient(idClient)") Modifier  
+			br
+			br
+			.w3-card-4
+				select#idProjet.w3-input(ng-model='idProjet',ng-change="chgProjet(idProjet)")
+					option(value='', selected='', disabled='')  Projet
+					option(ng-repeat='Projet in ListProjet', value='{{ $index }}') {{ Projet.Nom }}
+				b.w3-btn.w3-orange.w3-right.w3-padding(ng-click="openProjet()")  Creer    
+				b.w3-btn.w3-orange.w3-left.w3-padding(ng-click="openProjet(idProjet)") Modifier
+			br
+			br
+			.w3-card-4
+				select#idTache.w3-input(ng-model='idTache',ng-change="chgTache(idTache,UserTemps)")
+					option(value='', selected='', disabled='')  Tache
+					option(ng-repeat='Tache in ListTache', value='{{ $index }}') {{ Tache.Nom }}
+				b.w3-btn.w3-orange.w3-right.w3-padding(ng-click="openTache()")  Creer
+				b.w3-btn.w3-orange.w3-left.w3-padding(ng-click="openTache(idTache)") Modifier
+		br
+		h2.w3-center Temps
+		br
+		.w3-card-4
+			ul.w3-ul
+				li
+					select#UserTemps.w3-input(ng-model='UserTemps',ng-change="chgTache(idTache,UserTemps)")
+						option(value='', selected='', disabled='')  Utilisateur
+						option(ng-repeat='User in ListUtilisateur', value='{{ User._id }}') {{ User.nom }}
+					b.w3-btn.w3-orange.w3-right.w3-padding(ng-click="openUtilisateur()")  +Utilisateur
+					b.w3-btn.w3-orange.w3-right.w3-padding(ng-click="chgUtilisateur(UserTemps)")  Modifier
+					b.w3-btn.w3-orange.w3-left.w3-padding(ng-click="openTemps()")  +Temps   
+						i.fa.fa-pencil-square-o(ng-click="openTemps()") 
+					br
+					br
+				li.w3-padding-16(ng-repeat='Temps in ListTemps')
+					//span.w3-closebtn.w3-padding(ng-click="endTemps($index)") &times;
+					span.w3-closebtn.w3-padding(ng-click="openTemps($index)") Modifier  
+						i.fa.fa-pencil-square-o(ng-click="openTemps($index)")
+					span.w3-xlarge 
+						b {{ Temps["Tache"] }}
+					br
+					p 
+						b Projet :
+						span {{ Temps["Projet"] }}
+						br
+						b Client : 
+						span {{ Temps["Client"] }}
+						br
+						b Date : 
+						span {{ Temps["DateDebut"] }}
+						br
+						b Heure : 
+						span {{ Temps["HeureDebut"] }} - {{ Temps["HeureFin"] }}
+						br
+						b Commentaire :
+						p
+							span {{ Temps["Commentaire"] }}
+		br
+		.w3-center
+			.w3-bar.w3-border.w3-round
+				b.w3-bar-item.w3-button( ng-click="PageTempsTache('-',UserTemps,idTache)") &#x276E; Precedent
+				input.w3-bar-item.w3-button.w3-block(readonly='', size='3', type='text', ng-model='ListSearchRPage')
+				b.w3-bar-item.w3-button.w3-right( ng-click="PageTempsTache('+',UserTemps,idTache)") Suivant &#x276F;
+		br
+		#popTemps.w3-modal
+			.w3-modal-content.w3-card-8.w3-animate-zoom(style='max-width:500px')
+				span.w3-closebtn.w3-hover-red.w3-container.w3-padding-8.w3-display-topright(ng-click="closeTemps()", title='Fermer') &times; 
+				br
+				br
+				form.w3-container(ng-submit='AjouterTemps(temps)')
+					h2.w3-center 
+						b Temps
+					select.w3-input(ng-model='temps.IDClient')
+						option(value='', selected='', disabled='')  Client
+						option(ng-repeat='Client in ListClient', value='{{ Client._id }}') {{ Client.Nom }}
+					select.w3-input(ng-model='temps.IDProjet')
+						option(value='', selected='', disabled='')  Projet
+						option(ng-repeat='Projet in ListProjet', value='{{ Projet._id }}') {{ Projet.Nom }}
+					select.w3-input(ng-model='temps.IDTache')
+						option(value='', selected='', disabled='')  Tache
+						option(ng-repeat='Tache in ListTache', value='{{ Tache._id }}') {{ Tache.Nom }}
+					select.w3-input(ng-model='temps.IDUtilisateur')
+						option(value='', selected='', disabled='')  Utilisateur
+						option(ng-repeat='User in ListUtilisateur', value='{{ User._id }}') {{ User.nom }}
+					br
+					input.w3-input.w3-border(type='text', placeholder='Date ?' , ng-model='temps.DateDebut') 
+					br
+					.w3-row-padding
+						.w3-half
+							input.w3-input.w3-border(type='text', placeholder='HeureDebut ?' , ng-model='temps.HeureDebut')  
+						.w3-half
+							input.w3-input.w3-border(type='text', placeholder='HeureFin ?' , ng-model='temps.HeureFin') 
+					br
+					textarea.w3-input.w3-border( placeholder='Commentaire ?', ng-model='temps.Commentaire', rows='5' ) 
+
+					button.w3-btn-block.w3-orange.w3-section.w3-padding(type='submit') Enregistrer  
+					input.w3-input(type='text', disabled='', ng-model='temps._id')
+		#popClient.w3-modal
+			.w3-modal-content.w3-card-8.w3-animate-zoom(style='max-width:500px')
+				span.w3-closebtn.w3-hover-red.w3-container.w3-padding-8.w3-display-topright(ng-click="closeClient()", title='Fermer') &times; 
+				br
+				br
+				form.w3-container(ng-submit='AjouterClient(client)')
+					h2.w3-center 
+						b Client
+					br
+					input.w3-input.w3-border(type='text', placeholder='Nom ?' , ng-model='client.Nom') 
+					br
+					input.w3-input.w3-border(type='text', placeholder='Mail ?' , ng-model='client.Mail') 
+					br
+					input.w3-input.w3-border(type='text', placeholder='Tel ?' , ng-model='client.Tel') 
+					br
+					textarea.w3-input.w3-border( placeholder='Adresse ?', ng-model='client.Adresse', rows='5' ) 
+
+					button.w3-btn-block.w3-orange.w3-section.w3-padding(type='submit') Enregistrer  
+					input.w3-input(type='text', disabled='', ng-model='client._id')
+		#popProjet.w3-modal
+			.w3-modal-content.w3-card-8.w3-animate-zoom(style='max-width:500px')
+				span.w3-closebtn.w3-hover-red.w3-container.w3-padding-8.w3-display-topright(ng-click="closeProjet()", title='Fermer') &times; 
+				br
+				br
+				form.w3-container(ng-submit='AjouterProjet(projet)')
+					h2.w3-center 
+						b Projet
+					select.w3-input(ng-model='projet.IDClient')
+						option(value='', selected='', disabled='')  Client
+						option(ng-repeat='Client in ListClient', value='{{ Client._id }}') {{ Client.Nom }}
+					select.w3-input(ng-model='projet.IDUtilisateur')
+						option(value='', selected='', disabled='')  Utilisateur
+						option(ng-repeat='User in ListUtilisateur', value='{{ User._id }}') {{ User.nom }}
+					br
+					input.w3-input.w3-border(type='text', placeholder='Nom ?' , ng-model='projet.Nom') 
+					br
+					input.w3-input.w3-border(type='text', placeholder='Etat ?' , ng-model='projet.Etat') 
+					br
+					.w3-row-padding
+						.w3-half
+							input.w3-input.w3-border(type='text', placeholder='DateDebut ?' , ng-model='projet.DateDebut')  
+						.w3-half
+							input.w3-input.w3-border(type='text', placeholder='DateDeFin ?' , ng-model='projet.DateDeFin')
+					br
+					input.w3-input.w3-border(type='text', placeholder='DureePrevue ?' , ng-model='projet.DureePrevue')  
+					br
+					textarea.w3-input.w3-border( placeholder='Description ?', ng-model='projet.Description', rows='5' ) 
+
+					button.w3-btn-block.w3-orange.w3-section.w3-padding(type='submit') Enregistrer  
+					input.w3-input(type='text', disabled='', ng-model='projet._id')
+		#popTache.w3-modal
+			.w3-modal-content.w3-card-8.w3-animate-zoom(style='max-width:500px')
+				span.w3-closebtn.w3-hover-red.w3-container.w3-padding-8.w3-display-topright(ng-click="closeTache()", title='Fermer') &times; 
+				br
+				br
+				form.w3-container(ng-submit='AjouterTache(tache)')
+					h2.w3-center 
+						b Tache
+					select.w3-input(ng-model='tache.IDClient')
+						option(value='', selected='', disabled='')  Client
+						option(ng-repeat='Client in ListClient', value='{{ Client._id }}') {{ Client.Nom }}
+					select.w3-input(ng-model='tache.IDProjet')
+						option(value='', selected='', disabled='')  Projet
+						option(ng-repeat='Projet in ListProjet', value='{{ Projet._id }}') {{ Projet.Nom }}
+					select.w3-input(ng-model='tache.IDUtilisateur')
+						option(value='', selected='', disabled='')  Utilisateur
+						option(ng-repeat='User in ListUtilisateur', value='{{ User._id }}') {{ User.nom }}
+					br
+					input.w3-input.w3-border(type='text', placeholder='Nom ?' , ng-model='tache.Nom') 
+					br
+					input.w3-input.w3-border(type='text', placeholder='Etat ?' , ng-model='tache.Etat') 
+					br
+					textarea.w3-input.w3-border( placeholder='Detail ?', ng-model='tache.Detail', rows='5' ) 
+
+					button.w3-btn-block.w3-orange.w3-section.w3-padding(type='submit') Enregistrer  
+					input.w3-input(type='text', disabled='', ng-model='tache._id')
+		#popUtilisateur.w3-modal
+			.w3-modal-content.w3-card-8.w3-animate-zoom(style='max-width:500px')
+				span.w3-closebtn.w3-hover-red.w3-container.w3-padding-8.w3-display-topright(ng-click="closeUtilisateur()", title='Fermer') &times; 
+				br
+				br
+				form.w3-container(ng-submit='AjouterUtilisateur(Utilisateur)')
+					h2.w3-center 
+						b Utilisateur
+					input.w3-input.w3-border(type='text', placeholder='Nom ?' , ng-model='Utilisateur.nom') 
+					br
+					input.w3-input.w3-border(type='text', placeholder='nomAlias ?' , ng-model='Utilisateur.nomAlias') 
+					br
+					input.w3-input.w3-border(type='text', placeholder='nomCivil ?' , ng-model='Utilisateur.nomCivil') 
+					br
+					input.w3-input.w3-border(type='text', placeholder='PrenomCivil ?' , ng-model='Utilisateur.PrenomCivil')
+					br
+					input.w3-input.w3-border(type='text', placeholder='Mail ?' , ng-model='Utilisateur.Mail') 
+					br
+					input.w3-input.w3-border(type='text', placeholder='Tel ?' , ng-model='Utilisateur.Tel')  
+					br
+					input.w3-input.w3-border(type='password', placeholder='Password ?' , ng-model='Utilisateur.Password') 
+					br
+					input.w3-input.w3-border(type='text', placeholder='Droits ?' , ng-model='Utilisateur.Droits') 
+					br
+					input.w3-input.w3-border(type='text', placeholder='Type ?' , ng-model='Utilisateur.Type') 
+					br
+					textarea.w3-input.w3-border( placeholder='Commentaire ?', ng-model='Utilisateur.Commentaire', rows='5' ) 
+
+					button.w3-btn-block.w3-orange.w3-section.w3-padding(type='submit') Enregistrer  
+					input.w3-input(type='text', disabled='', ng-model='Utilisateur._id')
