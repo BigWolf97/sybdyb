@@ -21,8 +21,8 @@ Grid.mongo = mongoose.mongo;
 var routes = require('./routes');
 var tmpMainPath = __dirname + '/';
 var UserSessionId = '';
-var url = 'mongodb://127.0.0.1:27017/meteor';
-
+//var url = 'mongodb://127.0.0.1:27017/meteor';
+var url = 'mongodb://nuclear4war:Gengis97@mongodb/meteor';
 var MongoOptions = {
     useMongoClient: true,
     /* other options */
