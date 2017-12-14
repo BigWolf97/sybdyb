@@ -27,7 +27,7 @@ var MongoOptions = {
     useMongoClient: true,
     /* other options */
 };
-mongoose.Promise = global.Promise;
+mongoose.Promise = Promise;
 mongoose.connect(url, MongoOptions, function (error) {
     if(error){
         console.log("Impossible de se Connecter au serveur MongoDB car : \n"+error);
