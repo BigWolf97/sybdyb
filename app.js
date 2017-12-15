@@ -21,11 +21,11 @@ Grid.mongo = mongoose.mongo;
 var routes = require('./routes');
 var tmpMainPath = __dirname + '/';
 var UserSessionId = '';
-var url = 'mongodb://user1YA:PCetni3tq46mdXdk@mongodb-sybdyb.7e14.starter-us-west-2.openshiftapps.com/testmongodb';
-//http://mongodb-sybdyb.7e14.starter-us-west-2.openshiftapps.com/
+var url = 'mongodb://userKK0:e8GUrCQSeiN8A0Vt@mongodb/ostestdb';
 
 var MongoOptions = {
     useMongoClient: true,
+    //ssl:true
     /* other options */
 };
 mongoose.Promise = global.Promise;
