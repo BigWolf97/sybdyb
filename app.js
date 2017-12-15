@@ -21,13 +21,14 @@ Grid.mongo = mongoose.mongo;
 var routes = require('./routes');
 var tmpMainPath = __dirname + '/';
 var UserSessionId = '';
-var url = 'mongodb://user1YA:PCetni3tq46mdXdk@http://mongodb-sybdyb.7e14.starter-us-west-2.openshiftapps.com/testmongodb';
+var url = 'mongodb://user1YA:PCetni3tq46mdXdk@mongodb-sybdyb.7e14.starter-us-west-2.openshiftapps.com/testmongodb';
+//http://mongodb-sybdyb.7e14.starter-us-west-2.openshiftapps.com/
 
 var MongoOptions = {
     useMongoClient: true,
     /* other options */
 };
-mongoose.Promise = Promise;
+mongoose.Promise = global.Promise;
 mongoose.connect(url, MongoOptions, function (error) {
     if(error){
         console.log("Impossible de se Connecter au serveur MongoDB car : \n"+error);
